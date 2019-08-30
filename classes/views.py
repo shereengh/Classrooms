@@ -131,28 +131,28 @@ def student_create(request, classroom_id):
     return render(request, 'create_student.html', context)
 
 def student_update(request, classroom_id,student_id):
-	student =Student.objects.get(id=student_id)
+	student = Student.objects.get(id=student_id)
 	classroom = Classroom.objects.get(id=classroom_id)
 	if request.user == classroom.teacher:
 		form = StudentForm(instance=student)
-		if request.method =="POST":
+		if request.method== "POST":
 			form = StudentForm(request.POST, instance=student)
 			if form.is_valid():
 				form.save()
 				messages.success(request,"Student updated!")
-				return redirect("classroom-detail", classroom_id)
+				return redirect("classroom-detail", classroom.id)
 	context = {
-	    "form":form,
-	    "classroom": classroom,
-	    "student": student,
+		
+		"classroom" : classroom,
+		"student" : student,
+		"form" : form,
 	}
-	return render(request, "student_update.html",context)
-
+	return render(request, "update-student.html",context)
 def student_delete(request, classroom_id, student_id):
-	student = Students.objects.get(id=student_id)
+	student = Student.objects.get(id=student_id)
 	classroom = Classroom.objects.get(id=classroom_id)
 	if request.user == classroom.teacher:
 		student.delete()
 		messages.success(request, "Student deleted!")	
-	return redirect('classroom_detail', classroom_id)
+	return redirect('classroom-detail', classroom_id)
 	    	

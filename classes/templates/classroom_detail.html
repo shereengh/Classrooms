@@ -22,7 +22,10 @@
     <th>Date of Birth</th> 
     <th>Gender</th>
     <th>Exam Grade</th>
-    <th>Actions</th>
+    {% if  request.user == classroom.teacher %}
+    <th>Actions</th>  
+    {% endif %}
+    
   </tr>
 </thead>
 <tbody>
@@ -32,9 +35,11 @@
   	<td>{{student.date_of_birth}}</td>
   	<td>{{student.gender}}</td>
   	<td>{{student.exam_grade}}</td>
+    {% if  request.user == classroom.teacher %}
   	<td><a href="{% url 'student-update' classroom.id student.id%}" class="btn" style="background-color: #000034; color: white;">Update</a>
     <a href="{% url 'student-delete' classroom.id student.id %}" class="btn" style="background-color: #FFA500; color: #000034;">Delete</a>
 </td>
+{% endif %}
   </tr>
   {% endfor %}
 </tbody>
